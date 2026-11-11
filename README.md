@@ -10,10 +10,10 @@ Fork do [alexeyw/lot-map](https://github.com/alexeyw/lot-map), de Aleksei Volodi
 Instalar:
 
 ```bash
-claude plugin install lot-map --marketplace wallyborba/lot-map
+claude plugin install lot-map --marketplace wallyborba/ume-lot-map
 ```
 
-No app desktop: **+** ao lado da caixa de mensagem, **Plugins**, **Add marketplace** com `wallyborba/lot-map`, depois **Add plugin**.
+No app desktop: **+** ao lado da caixa de mensagem, **Plugins**, **Add marketplace** com `wallyborba/ume-lot-map`, depois **Add plugin**.
 
 Atualizar:
 
@@ -40,16 +40,16 @@ A mod for Claude Code: a live map of the work, in a pane beside the chat. Every 
 At the prompt of a terminal session:
 
 ```
-/plugin install lot-map --marketplace wallyborba/lot-map
+/plugin install lot-map --marketplace wallyborba/ume-lot-map
 ```
 
 Answer `y` to add the marketplace, then choose a scope. From a shell:
 
 ```bash
-claude plugin install lot-map --marketplace wallyborba/lot-map
+claude plugin install lot-map --marketplace wallyborba/ume-lot-map
 ```
 
-In the desktop app: click **+** next to the prompt box, then **Plugins**, **Add marketplace** with `wallyborba/lot-map`, then **Add plugin**.
+In the desktop app: click **+** next to the prompt box, then **Plugins**, **Add marketplace** with `wallyborba/ume-lot-map`, then **Add plugin**.
 
 The pane opens by itself when a session starts. In a terminal it needs at least 144 columns and draws text only; otherwise type `/lot-map`. Built and tested on Claude Code 2.1.321 on macOS; users report it working on Windows as well.
 
