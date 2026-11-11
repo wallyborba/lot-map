@@ -2,6 +2,16 @@
 
 What changed in each version of lot-map, newest first. To get a new version, see [Updating](README.md#updating).
 
+## 0.3.9-ume.1 (2026-11-11)
+
+Edição Ume, fork de [alexeyw/lot-map](https://github.com/alexeyw/lot-map) 0.3.8.
+
+- Logo da Ume no centro do mapa (opção `coreLogo`), com a área de respiro da marca. (#2)
+- Paleta escura do Ume Design System por padrão, tema `dark`. (#1, #2)
+- Lista de eventos nas cores `success` e `error` do tema do Claude. (#2)
+- Fonte Geist Mono no mapa, quando instalada. (#1)
+- Marketplace renomeado para `ume-lot-map`. (#1)
+
 ## 0.3.8 (2026-11-11)
 
 - Italian labels: `language` takes `it`. Contributed by kesi26. (#20)
