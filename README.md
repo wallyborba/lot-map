@@ -1,4 +1,32 @@
-# lot-map
+# lot-map — edição Ume
+
+Fork do [alexeyw/lot-map](https://github.com/alexeyw/lot-map), de Aleksei Volodin, sob licença [MIT](LICENSE). Muda só a aparência:
+
+- paleta da Ume por padrão (tema claro, verde para ações, roxo para memória) e `ume.` no centro do mapa;
+- a lista de eventos usa as cores de `accent` e `error` definidas em `colors`, em vez do laranja do tema do Claude;
+- fonte Geist Mono no mapa, quando estiver instalada (se não, SF Mono).
+
+Instalar:
+
+```bash
+claude plugin install lot-map --marketplace wallyborba/lot-map
+```
+
+No app desktop: **+** ao lado da caixa de mensagem, **Plugins**, **Add marketplace** com `wallyborba/lot-map`, depois **Add plugin**.
+
+Atualizar:
+
+```bash
+claude plugin marketplace update ume-lot-map
+```
+
+```bash
+claude plugin update lot-map@ume-lot-map
+```
+
+Quem já tem o original instalado deve removê-lo antes (`claude plugin uninstall lot-map@lot-map`). Para voltar às cores originais, limpe a opção `colors` e ponha `theme` em `auto`. O texto abaixo é o README original.
+
+---
 
 A mod for Claude Code: a live map of the work, in a pane beside the chat. Every tool call, model step, hook and skill sends a pulse from the centre to its station, so you see memory, files, shell, web and agents at work instead of reading a list of commands.
 
@@ -11,16 +39,16 @@ A mod for Claude Code: a live map of the work, in a pane beside the chat. Every 
 At the prompt of a terminal session:
 
 ```
-/plugin install lot-map --marketplace alexeyw/lot-map
+/plugin install lot-map --marketplace wallyborba/lot-map
 ```
 
 Answer `y` to add the marketplace, then choose a scope. From a shell:
 
 ```bash
-claude plugin install lot-map --marketplace alexeyw/lot-map
+claude plugin install lot-map --marketplace wallyborba/lot-map
 ```
 
-In the desktop app: click **+** next to the prompt box, then **Plugins**, **Add marketplace** with `alexeyw/lot-map`, then **Add plugin**.
+In the desktop app: click **+** next to the prompt box, then **Plugins**, **Add marketplace** with `wallyborba/lot-map`, then **Add plugin**.
 
 The pane opens by itself when a session starts. In a terminal it needs at least 144 columns and draws text only; otherwise type `/lot-map`. Built and tested on Claude Code 2.1.321 on macOS; users report it working on Windows as well.
 
@@ -29,8 +57,8 @@ The pane opens by itself when a session starts. In a terminal it needs at least 
 From a shell:
 
 ```bash
-claude plugin marketplace update lot-map
-claude plugin update lot-map@lot-map
+claude plugin marketplace update ume-lot-map
+claude plugin update lot-map@ume-lot-map
 ```
 
 Then start a new session. The first command is needed: without it the second one reports the installed version as the latest.
@@ -105,7 +133,7 @@ The install offers them on a screen. Later, use `/config` in a terminal or `clau
 For example, Russian labels and your own memory server:
 
 ```bash
-echo '{"language":"ru","memoryServers":"my-memory"}' | claude plugin configure lot-map@lot-map --values-stdin
+echo '{"language":"ru","memoryServers":"my-memory"}' | claude plugin configure lot-map@ume-lot-map --values-stdin
 ```
 
 Lists are written with commas.
@@ -119,7 +147,7 @@ Lists are written with commas.
 `colors` replaces the map's colours one by one. Set one, a few, or all thirteen; what you leave out stays as it is.
 
 ```bash
-echo '{"theme":"dark","colors":"accent=#7fb4ff,active=#b8d6ff,text=#e6edf7"}' | claude plugin configure lot-map@lot-map --values-stdin
+echo '{"theme":"dark","colors":"accent=#7fb4ff,active=#b8d6ff,text=#e6edf7"}' | claude plugin configure lot-map@ume-lot-map --values-stdin
 ```
 
 | Name | What it colours |

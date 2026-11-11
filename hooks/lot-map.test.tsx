@@ -229,7 +229,7 @@ test('the drawing stays within what Svg accepts at its fullest', () => {
   // Attributes are well formed: none empty, none run into the next.
   expect(svg).not.toContain('=""')
   expect(/"[a-z-]+="/.test(svg)).toBe(false)
-  expect(svg).toContain('font-family="SF Mono, ui-monospace, Menlo, monospace"')
+  expect(svg).toContain('font-family="Geist Mono, SF Mono, ui-monospace, Menlo, monospace"')
   expect(svg).not.toContain('Infinity')
 })
 
