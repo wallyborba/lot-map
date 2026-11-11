@@ -25,6 +25,16 @@
       "default": "ume.",
       "description": "What the circle in the middle of the map says, up to ten characters."
     },
+    "coreLogo": {
+      "type": "string",
+      "title": "Logo at the centre",
+      "options": [
+        "ume",
+        "none"
+      ],
+      "default": "ume",
+      "description": "The Ume logo in the circle in the middle of the map, in Verde Claro on a dark map and Cinza Escuro on a light one. none shows the name at the centre instead."
+    },
     "memoryServers": {
       "type": "string",
       "multiple": true,
@@ -82,7 +92,7 @@
         "dark",
         "light"
       ],
-      "default": "light",
+      "default": "dark",
       "description": "The map's colours: dark, light, or auto, which is dark on a dark surface and light on a light one."
     },
     "background": {
@@ -100,21 +110,21 @@
       "multiple": true,
       "title": "Colours of your own",
       "default": [
-        "background=#FAFAFA",
-        "node=#FFFFFF",
-        "line=#CCCCCC",
-        "spoke=#E5E5E5",
-        "text=#1A1A1A",
-        "label=#555555",
-        "faint=#737373",
-        "accent=#038C52",
-        "active=#026B3F",
-        "error=#C23434",
-        "memory=#974AFD",
-        "memoryActive=#6020B8",
-        "route=#737373"
+        "background=#0F0F0F",
+        "node=#1A1A1A",
+        "line=#2D2D2D",
+        "spoke=#242424",
+        "text=#F2F2F2",
+        "label=#A3A3A3",
+        "faint=#A3A3A3",
+        "accent=#09CF7C",
+        "active=#4DDF9F",
+        "error=#E5484D",
+        "memory=#B88FFE",
+        "memoryActive=#CEC1F7",
+        "route=#F2F2F2"
       ],
-      "description": "Colours that replace the map's own, each written as name=#rrggbb. Names: background, node, line, spoke, text, label, faint, accent, active, error, memory, memoryActive, route. Set theme to dark or light with them. The Ume palette is set by default; clear it to get the map's own colours back."
+      "description": "Colours that replace the map's own, each written as name=#rrggbb. Names: background, node, line, spoke, text, label, faint, accent, active, error, memory, memoryActive, route. Set theme to dark or light with them. The Ume Design System's dark palette is set by default; clear it to get the map's own colours back."
     },
     "layout": {
       "type": "string",
