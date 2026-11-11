@@ -45,6 +45,8 @@ export type Setup = {
   colors: Partial<Palette>
   /** Who sits at the top of the ring: the person, or the network with the person at the bottom. */
   layout: 'you-top' | 'you-bottom'
+  /** What the centre shows: the name in `core`, or the Ume logo in its place. */
+  logo: 'ume' | 'none'
 }
 
 const list = (v: unknown): string[] =>
@@ -71,6 +73,7 @@ export function setupFrom(options: Readonly<Record<string, unknown>> = {}): Setu
     background: options.background === 'transparent' ? 'transparent' : 'solid',
     colors: colorsFrom(options.colors),
     layout: options.layout === 'you-bottom' ? 'you-bottom' : 'you-top',
+    logo: options.coreLogo === 'ume' ? 'ume' : 'none',
   }
 }
 
@@ -405,7 +408,23 @@ function colorsFrom(v: unknown): Partial<Palette> {
   return out
 }
 
-const FONT = 'font-family="Geist Mono, SF Mono, ui-monospace, Menlo, monospace"'
+const FONT = 'font-family="Geist Mono, ui-monospace, SFMono-Regular, SF Mono, Menlo, monospace"'
+
+/**
+ * The Ume logo as drawn in the brand's own file (ume_green_logo.svg, viewBox 644.98 × 177.44), path untouched.
+ * The brand book: Verde Claro on dark grounds, Cinza Escuro on light ones; never recoloured otherwise, never
+ * rotated or outlined, and clear on every side by the height of the "u".
+ */
+const UME_LOGO = {
+  width: 644.98,
+  height: 177.44,
+  dark: '#09cf7c',
+  light: '#1a1a1a',
+  d: 'M545.28,113.88c-2.27,9.07-7.02,16.15-14.27,21.25-7.26,5.09-16.55,7.64-27.88,7.64-13.38,0-23.61-4.14-31.27-11.9-16.95-17.17-12.92-49.38-12.92-49.38h5.43c3.37,9.82,12.6,16.4,22.98,16.4h102.13v-13.25c0-26.52-7.82-47.26-23.45-62.21-15.65-14.95-37.28-22.44-64.93-22.44-17,0-32.07,3.46-45.21,10.37-13.14,6.92-23.34,16.94-30.59,30.09-5.11,9.25-8.41,19.73-9.92,31.44-.71-20.46-5.04-37.24-12.96-50.32-8.73-14.39-22.73-21.58-41.99-21.58-16.54,0-29.34,4.48-38.4,13.43-9.07,8.96-15.42,21.58-19.05,37.9h-5.59C292.38,17.11,275.51,0,246.72,0c-16.54,0-29.41,4.48-38.57,13.43-9.19,8.96-15.58,21.58-19.21,37.9h-5.59V3.4h-44.87v67.65c0,22.66-6.94,39.49-16.46,50.48-9.51,11-22.55,16.49-39.1,16.49-13.59,0-23.28-3.4-29.07-10.2-5.77-6.8-8.65-18.35-8.65-34.67V3.4H0v96.54c0,25.14,6,44.35,18.01,57.62,12.01,13.25,28.67,19.88,49.97,19.88,17.68,0,32.01-4.92,43.01-14.78,10.98-9.87,18.29-22.82,21.92-38.92h5.57v50.31h44.87v-65.27c0-46.22,16.34-69.34,44.67-69.34,7.71,0,13.6,1.36,17.68,4.08,4.08,2.73,6.97,7.2,8.67,13.43,1.71,6.25,2.55,15.02,2.55,26.35v90.76h44.87v-65.27c0-46.22,11.59-69.34,39.92-69.34,7.71,0,13.6,1.36,17.68,4.08,4.07,2.73,6.97,7.2,8.67,13.43,1.71,6.25,2.55,15.02,2.55,26.35v90.76h44.86v-70.64c1.52,11.07,4.68,21.26,9.46,30.54,7.03,13.59,17.22,24.26,30.6,31.94,13.38,7.72,29.34,11.56,47.93,11.56,25.15,0,45.1-5.95,59.83-17.84,14.73-11.9,23.57-27.15,26.51-45.72h-44.52ZM472.19,43.86c7.71-6.81,17.67-10.2,29.91-10.2s22.61,3.35,30.43,10.02c7.82,6.69,12.18,16.15,13.09,28.38h-86.34c.91-12,5.2-21.41,12.92-28.2ZM644.98,146.81v9.52c0,11.66-9.45,21.11-21.11,21.11h-12.94c-11.67,0-21.13-9.45-21.13-21.11v-9.52c0-11.66,9.45-21.11,21.13-21.11h12.94c11.66,0,21.11,9.45,21.11,21.11Z',
+}
+
+/** Width of the logo in the centre: the logo and its clear space (the height of the "u" all round) fit inside the core. */
+const LOGO_W = 44
 
 const PULSE_MS = 800
 const RIPPLE_MS = 450
@@ -702,6 +721,9 @@ export function drawMap(board: Board, now: number, setup: Setup): string {
 
   // A name longer than three letters shrinks to stay inside the circle.
   const coreSize = Math.min(17, 62 / (0.75 * setup.core.length))
+  const hasLogo = setup.logo === 'ume'
+  // Words just outside the core stand on a rim of the ground, as the station labels do, so a spoke never strikes them through.
+  const coreRim = `paint-order="stroke" stroke="${c.ground}" stroke-width="3.5" stroke-linejoin="round"`
 
   // The core breathes at rest and quickens while something runs.
   const period = anyRunning ? 1600 : 4800
@@ -719,14 +741,26 @@ export function drawMap(board: Board, now: number, setup: Setup): string {
     body +=
       `<circle ${ring} stroke="${c.line}" opacity=".7"/>` +
       `<circle ${ring} stroke="${full >= 90 ? c.red : full >= 70 ? c.accent : c.ash}" pathLength="100" stroke-dasharray="${full} 100" transform="rotate(-90 ${CX} ${CY})"/>` +
-      `<text x="${CX}" y="${CY - 19}" text-anchor="middle" ${FONT} font-size="8" fill="${c.dim}">${full}%</text>`
+      // With the logo in the centre, the figure stands just outside the ring, so nothing enters the logo's clear space.
+      (hasLogo
+        ? `<text x="${CX}" y="${CY - CORE - 12}" text-anchor="middle" ${FONT} font-size="9" ${coreRim} fill="${c.dim}">${full}%</text>`
+        : `<text x="${CX}" y="${CY - 19}" text-anchor="middle" ${FONT} font-size="8" fill="${c.dim}">${full}%</text>`)
   }
 
   const switchAge = board.switchedAt === undefined ? Infinity : now - board.switchedAt
   const isSwitching = switchAge >= 0 && switchAge < SWITCH_MS
-  body += `<text x="${CX}" y="${CY + (board.model === undefined ? 6 : 1)}" text-anchor="middle" ${FONT} font-size="${n1(coreSize)}" letter-spacing="${n1(coreSize * 0.147)}" fill="${c.bone}">${escapeXml(setup.core)}</text>`
+  if (hasLogo) {
+    const scale = LOGO_W / UME_LOGO.width
+    const logoH = UME_LOGO.height * scale
+    const fill = setup.theme === 'light' ? UME_LOGO.light : UME_LOGO.dark
+    body += `<path class="ume-logo" transform="translate(${n1(CX - LOGO_W / 2)} ${n1(CY - logoH / 2)}) scale(${scale.toFixed(5)})" fill="${fill}" d="${UME_LOGO.d}"/>`
+  } else {
+    body += `<text x="${CX}" y="${CY + (board.model === undefined ? 6 : 1)}" text-anchor="middle" ${FONT} font-size="${n1(coreSize)}" letter-spacing="${n1(coreSize * 0.147)}" fill="${c.bone}">${escapeXml(setup.core)}</text>`
+  }
   if (board.model !== undefined) {
-    body += `<text x="${CX}" y="${CY + 17}" text-anchor="middle" ${FONT} font-size="9" fill="${isSwitching ? c.hot : c.ash}">${escapeXml(shortModel(board.model))}</text>`
+    body += hasLogo
+      ? `<text x="${CX}" y="${CY + CORE + 18}" text-anchor="middle" ${FONT} font-size="9" ${coreRim} fill="${isSwitching ? c.hot : c.ash}">${escapeXml(shortModel(board.model))}</text>`
+      : `<text x="${CX}" y="${CY + 17}" text-anchor="middle" ${FONT} font-size="9" fill="${isSwitching ? c.hot : c.ash}">${escapeXml(shortModel(board.model))}</text>`
   }
 
   // A changed model rings at the core and at its station for a few seconds.
@@ -753,7 +787,9 @@ export function drawMap(board: Board, now: number, setup: Setup): string {
   }
 
   // Twice the viewBox, so the picture fills whatever room the pane gives it.
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W * 2}" height="${H * 2}">${setup.theme === 'auto' ? lightRules(setup.colors) : ''}${body}</svg>`
+  // On `auto`, the logo follows the surface as the brand book asks: Cinza Escuro where the map turns light.
+  const logoRule = hasLogo ? `<style>@media (prefers-color-scheme: light){.ume-logo{fill:${UME_LOGO.light}}}</style>` : ''
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W * 2}" height="${H * 2}">${setup.theme === 'auto' ? lightRules(setup.colors) + logoRule : ''}${body}</svg>`
 }
 
 function escapeXml(text: string): string {

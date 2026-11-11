@@ -2,9 +2,10 @@
 
 Fork do [alexeyw/lot-map](https://github.com/alexeyw/lot-map), de Aleksei Volodin, sob licença [MIT](LICENSE). Muda só a aparência:
 
-- paleta da Ume por padrão (tema claro, verde para ações, roxo para memória) e `ume.` no centro do mapa;
-- a lista de eventos usa as cores de `accent` e `error` definidas em `colors`, em vez do laranja do tema do Claude;
-- fonte Geist Mono no mapa, quando estiver instalada (se não, SF Mono).
+- paleta escura do Ume Design System por padrão (fundo `#0F0F0F`, Verde Claro para ações, Roxo claro para memória, vermelho `destructive` para erros);
+- logo da Ume no centro do mapa (opção `coreLogo`), em Verde Claro no mapa escuro e Cinza Escuro no claro, com a área de respiro da marca; o modelo e o percentual de contexto saem para fora do círculo;
+- a lista de eventos usa as cores do tema do Claude (`success` e `error`), que mantêm contraste no app claro e no escuro;
+- fonte Geist Mono no mapa, quando estiver instalada.
 
 Instalar:
 
@@ -24,7 +25,7 @@ claude plugin marketplace update ume-lot-map
 claude plugin update lot-map@ume-lot-map
 ```
 
-Quem já tem o original instalado deve removê-lo antes (`claude plugin uninstall lot-map@lot-map`). Para voltar às cores originais, limpe a opção `colors` e ponha `theme` em `auto`. O texto abaixo é o README original.
+Quem já tem o original instalado deve removê-lo antes (`claude plugin uninstall lot-map@lot-map`). Para voltar ao visual original, limpe a opção `colors`, ponha `theme` em `auto` e `coreLogo` em `none`. O texto abaixo é o README original.
 
 ---
 

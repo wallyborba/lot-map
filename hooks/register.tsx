@@ -339,8 +339,9 @@ export const register: Register = (on, options) => {
       const isSwitch = entry.mark === 'switch'
       const mark = isSwitch ? '◆' : entry.status === 'run' ? '●' : entry.status === 'ok' ? '·' : '✕'
       const took = entry.endedAt === undefined ? t.running : tookMs > 0 ? formatMs(tookMs, t) : ''
-      // The person's own accent and error colours when set; otherwise theme keys, which read on a light theme and a dark one.
-      const color = isSwitch || entry.status === 'run' ? (setup.colors.accent ?? 'claude') : entry.status === 'ok' ? undefined : (setup.colors.red ?? 'error')
+      // Theme keys, not the map's own colours: the rows sit on the app's surface, light or dark, and a key keeps its contrast on
+      // both. Green for work under way (Ume's Verde Claro as text would fail on a light surface), the theme's red for faults.
+      const color = isSwitch || entry.status === 'run' ? 'success' : entry.status === 'ok' ? undefined : 'error'
       const line = `${mark} ${t.stations[entry.station].padEnd(column)} ${entry.label}${times > 1 ? `  +${times - 1}` : ''}${took === '' ? '' : `  ${took}`}`
       return (
         <Text mono size="footnote" color={color} dimColor={entry.status === 'ok' && !isSwitch}>

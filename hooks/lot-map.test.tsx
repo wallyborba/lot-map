@@ -229,7 +229,7 @@ test('the drawing stays within what Svg accepts at its fullest', () => {
   // Attributes are well formed: none empty, none run into the next.
   expect(svg).not.toContain('=""')
   expect(/"[a-z-]+="/.test(svg)).toBe(false)
-  expect(svg).toContain('font-family="Geist Mono, SF Mono, ui-monospace, Menlo, monospace"')
+  expect(svg).toContain('font-family="Geist Mono, ui-monospace, SFMono-Regular, SF Mono, Menlo, monospace"')
   expect(svg).not.toContain('Infinity')
 })
 
@@ -696,6 +696,33 @@ test('colors of your own replace their places in the palette, and nothing but a 
   expect(new Set(Object.values(COLOR_NAMES)).size).toBe(13)
   // The setting does not leak into the next drawing.
   expect(draw({ theme: 'dark' })).toContain('#e1ac6e')
+})
+
+test('the Ume logo takes the place of the name at the centre, in the colour the brand gives each ground, with its clear space kept', () => {
+  const board: Board = { entries: [], counts: {}, model: 'claude-opus-5-5', context: 46 }
+  const draw = (options: Record<string, unknown>) => drawMap(board, 1000, setupFrom({ coreName: 'ume.', ...options }))
+
+  // Off unless asked for: the name stays.
+  expect(setupFrom({}).logo).toBe('none')
+  expect(setupFrom({ coreLogo: 'other' }).logo).toBe('none')
+  expect(draw({ theme: 'dark' })).toContain('>ume.<')
+  expect(draw({ theme: 'dark' })).not.toContain('ume-logo')
+
+  // Verde Claro on a dark map, Cinza Escuro on a light one; the name is gone.
+  const dark = draw({ theme: 'dark', coreLogo: 'ume' })
+  expect(dark).toContain('class="ume-logo"')
+  expect(dark).toMatch(/class="ume-logo"[^>]*fill="#09cf7c"/)
+  expect(dark).not.toContain('>ume.<')
+  expect(draw({ theme: 'light', coreLogo: 'ume' })).toMatch(/class="ume-logo"[^>]*fill="#1a1a1a"/)
+  // On auto it follows the surface.
+  expect(draw({ coreLogo: 'ume' })).toContain('.ume-logo{fill:#1a1a1a}')
+  expect(draw({ theme: 'dark', coreLogo: 'ume' })).not.toContain('.ume-logo{fill:')
+
+  // The model and the context figure move outside the core, clear of the logo.
+  const y = (text: string) => Number(new RegExp(`y="([\\d.]+)"[^>]*>${text}<`).exec(dark)?.[1])
+  expect(y('46%')).toBeLessThan(212 - 40)
+  expect(y('opus 5.5')).toBeGreaterThan(212 + 40)
+  expect(dark).not.toContain('NaN')
 })
 
 const NOTICE = (id: string, status: string): string =>
