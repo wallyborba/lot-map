@@ -405,7 +405,7 @@ function colorsFrom(v: unknown): Partial<Palette> {
   return out
 }
 
-const FONT = 'font-family="SF Mono, ui-monospace, Menlo, monospace"'
+const FONT = 'font-family="Geist Mono, SF Mono, ui-monospace, Menlo, monospace"'
 
 const PULSE_MS = 800
 const RIPPLE_MS = 450

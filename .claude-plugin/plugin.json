@@ -1,7 +1,7 @@
 {
   "name": "lot-map",
   "version": "0.3.8",
-  "description": "A live map beside the chat: memory, files, shell, web, model, agents, skills and hooks light up as they are used",
+  "description": "Ume edition: A live map beside the chat: memory, files, shell, web, model, agents, skills and hooks light up as they are used",
   "license": "MIT",
   "types": "./types/index.d.ts",
   "userConfig": {
@@ -22,7 +22,7 @@
     "coreName": {
       "type": "string",
       "title": "Name at the centre",
-      "default": "CLAUDE",
+      "default": "ume.",
       "description": "What the circle in the middle of the map says, up to ten characters."
     },
     "memoryServers": {
@@ -82,7 +82,7 @@
         "dark",
         "light"
       ],
-      "default": "auto",
+      "default": "light",
       "description": "The map's colours: dark, light, or auto, which is dark on a dark surface and light on a light one."
     },
     "background": {
@@ -99,8 +99,22 @@
       "type": "string",
       "multiple": true,
       "title": "Colours of your own",
-      "default": [],
-      "description": "Colours that replace the map's own, each written as name=#rrggbb. Names: background, node, line, spoke, text, label, faint, accent, active, error, memory, memoryActive, route. Set theme to dark or light with them."
+      "default": [
+        "background=#FAFAFA",
+        "node=#FFFFFF",
+        "line=#CCCCCC",
+        "spoke=#E5E5E5",
+        "text=#1A1A1A",
+        "label=#555555",
+        "faint=#737373",
+        "accent=#038C52",
+        "active=#026B3F",
+        "error=#C23434",
+        "memory=#974AFD",
+        "memoryActive=#6020B8",
+        "route=#737373"
+      ],
+      "description": "Colours that replace the map's own, each written as name=#rrggbb. Names: background, node, line, spoke, text, label, faint, accent, active, error, memory, memoryActive, route. Set theme to dark or light with them. The Ume palette is set by default; clear it to get the map's own colours back."
     },
     "layout": {
       "type": "string",
